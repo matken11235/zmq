@@ -19,13 +19,19 @@ test('simple', async () => {
   const requester = new ZmqRequester(url);
 
   let res = await requester.request({ type: 'get' });
+  // @ts-ignore
   expect(res.success).toBe(true);
+  // @ts-ignore
   expect(res.data.a).toBe(1);
   res = await requester.request({ type: 'set' });
+  // @ts-ignore
   expect(res.success).toBe(false);
+  // @ts-ignore
   expect(res.reason).toBe('failed to set');
   res = await requester.request('{{{invalid string');
+  // @ts-ignore
   expect(res.success).toBe(false);
+  // @ts-ignore
   expect(res.reason).toBe('default');
   responder.dispose();
   requester.dispose();
@@ -37,7 +43,7 @@ test('timeout', async () => {
   const responder = new ZmqResponder(url, handler);
   const requester = new ZmqRequester(url, 100);
   try {
-    let res = await requester.request({ type: 'get' });
+    await requester.request({ type: 'get' });
     expect(true).toBe(false);
   } catch (ex) {
     expect(ex.message).toBe('Request timed out.')
